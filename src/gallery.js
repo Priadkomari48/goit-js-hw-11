@@ -65,30 +65,39 @@ function pictureRequest(e) {
     e.currentTarget.reset();
 };
 
-function loadMoreImgs() {  
+function loadMoreImgs() {
     const params = new URLSearchParams({
-     page: page,
-     per_page: limit,
+        page: page,
+        per_page: limit,
     });
 
     const url = `https://pixabay.com/api/?key=25798215-b5224b890c985f6c53280bcb2&q=${name}&${params}&image_type=photo&orientation=horizontal&safesearch=true`;
 
-     if (page > totalPages) {
+    if (page > totalPages) {
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+        refs.loadMoreBtnEl.style.display = 'none'; // Скрыть кнопку "Load more"
         return;
     }
+
     return fetch(url)
         .then(response => {
-        if (!response.ok) {
-            throw new Error(response.status);
-        }
-        return response.json();
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+            return response.json();
         })
         .then(pictures => {
+            if (pictures.hits.length === 0) { // Проверка на длину массива
+                Notiflix.Notify.info("No more images to load.");
+                refs.loadMoreBtnEl.classList.add('is-hidden'); // Скрыть кнопку "Load more"
+                return;
+            }
             addMarkupItems(pictures.hits);
-             page += 1;
+            page += 1;
         });
 }
+
+
 
 function addMarkupItems(images) {
     images.map(img => {
