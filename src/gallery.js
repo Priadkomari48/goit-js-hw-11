@@ -73,12 +73,6 @@ function loadMoreImgs() {
 
     const url = `https://pixabay.com/api/?key=25798215-b5224b890c985f6c53280bcb2&q=${name}&${params}&image_type=photo&orientation=horizontal&safesearch=true`;
 
-    if (page > totalPages) {
-        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-        refs.loadMoreBtnEl.style.display = 'none'; // Скрыть кнопку "Load more"
-        return;
-    }
-
     return fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -87,13 +81,20 @@ function loadMoreImgs() {
             return response.json();
         })
         .then(pictures => {
-            if (pictures.hits.length === 0) { // Проверка на длину массива
+            if (pictures.hits.length === 0 || page >= totalPages) {
                 Notiflix.Notify.info("No more images to load.");
-                refs.loadMoreBtnEl.classList.add('is-hidden'); // Скрыть кнопку "Load more"
+                refs.loadMoreBtnEl.style.display = 'none'; // Скрыть кнопку "Load more"
                 return;
             }
             addMarkupItems(pictures.hits);
             page += 1;
+
+            if (page >= totalPages) {
+                refs.loadMoreBtnEl.style.display = 'none'; // Скрыть кнопку "Load more" при достижении последней страницы
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching images:', error);
         });
 }
 
