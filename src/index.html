@@ -1,32 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Images</title>
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/gallery.css" />
+    <title>Page title</title>
+    <link rel="stylesheet" href="./sass/index.scss" />
+    <script type="module" src="./index.js"></script>
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        class="form-input"
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button class="form-btn" type="submit">Search</button>
-    </form>
+    <div class="container">
+      <form class="search-form" id="search-form">
+        <input
+          class="input"
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button class="search-form__submit" type="submit">
+          <img
+            src="./images/icon.png"
+            width="25"
+            height="25"
+            alt="icon-search"
+          />
+        </button>
+      </form>
 
-    <div class="gallery">
-      <!-- Карточки изображений -->
+      <div class="gallery">
+        <!-- Картки зображень -->
+      </div>
+
+      <button type="button" class="load-more">Load more</button>
     </div>
-
-    <button type="button" class="load-more is-hidden">Load more</button>
-
-      <script type="module" src="./gallery.js"></script>
-
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
